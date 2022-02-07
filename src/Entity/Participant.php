@@ -7,10 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-
+use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass=ParticipantRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
+ * @UniqueEntity(fields={"pseudo"}, message="There is already an account with this pseudo")
  */
 class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -23,37 +24,58 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="SVP tappez votre Email !!")
+     * @Assert\Length(min=5,max=180 ,minMessage="il faut saisir au moins 5 caractères")
+     * @Assert\Regex(
+     *     pattern="/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/",
+     *     message="Mail non valide !"
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Assert\NotBlank (message="role obligatoire")
+     *
      */
     private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Mot de passe obligatoire")
+     * @Assert\Regex(
+     * pattern = "/^(?=.*\d)(?=.*[A-Z])(?=.*[@#$%])(?!.*(.)\1{2}).*[a-z]/m",
+     * match=true,
+     * message="Votre mot de passe doit comporter au moins huit caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole.")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="SVP tappez votre Nom !")
+     * @Assert\Length(min=1,max=50 ,minMessage="il faut saisir au moins 1 caractère",maxMessage="saisissez 50 caractères Maximum")
+     *
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotBlank(message="SVP tappez votre Prénom !")
+     * @Assert\Length(min=1,max=50 ,minMessage="il faut saisir au moins 1 caractère",maxMessage="saisissez 50 caractères Maximum")
      */
     private $prenom;
 
     /**
      * @ORM\Column(type="string", length=15)
+     * @Assert\Length(min = 8, max = 15, minMessage = "8 chiffres minimum", maxMessage = "15 chiffres maximum")
+     * @Assert\Regex(pattern="/^[0-9]*$/", message="le Tel ne contient que des chiffres")
      */
     private $telephone;
 
     /**
      * @ORM\Column(type="boolean")
+     *
      */
     private $administrateur;
 
@@ -61,6 +83,14 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="boolean")
      */
     private $actif;
+
+    /**
+     * @ORM\Column(type="string", length=100,unique=true)
+     * @Assert\NotBlank (message="le pseuso est obligatoire")
+     * @Assert\Length(min=5,max=100 ,minMessage="il faut saisir au moins 5 caractères",maxMessage="saisissez 100 caractères Maximum")
+     *
+     */
+    private $pseudo;
 
     public function getId(): ?int
     {
@@ -207,6 +237,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActif(bool $actif): self
     {
         $this->actif = $actif;
+
+        return $this;
+    }
+
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
 
         return $this;
     }
