@@ -1,0 +1,47 @@
+header{
+    position: sticky;
+    top: 0;
+    background-color: #d5dc00;
+    width: 100%;
+    height: 15vh;
+    min-height: 100px;
+}
+
+header img{
+    height: 8vh;
+    min-height: 80px;
+    padding-top: 5px;
+}
+
+main{
+    margin: auto;
+    background-color: white;
+    width: 80vw;
+    min-height: 80vh;
+}
+.container{
+    text-align: center;
+}
+
+.bg{
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    width: 50vw;
+    position: fixed;
+    z-index: -1;
+}
+.l{
+    background-position-x: -10vw;
+}
+.r{
+    right: 0;
+}
+
+footer{
+    background-color: #d5dc00;
+    height: 5vh;
+    min-height: 50px;
+    padding-top: 11px;
+    padding-bottom: 11px;
+}

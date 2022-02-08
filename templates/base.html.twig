@@ -7,25 +7,35 @@
     <title>{% block title %}Sortir.com{% endblock %}</title>
     <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    <link rel="icon" href="{{ asset('img/logo2popMin.jpg') }}">
+    <style>
+        .l{background-image: url("{{asset('img/bg1.jpg')}}") ;}
+        .r{background-image: url("{{asset('img/bg2.jpg')}}");}
+    </style>
 </head>
 <body>
+<div class="bg l"></div>
+<div class="bg r"></div>
 
     <header>
         <div class="container">
-
+            <a href="{{ path('main_home') }}">
+                <img src="{{ asset('img/logo.png') }}" alt="Sortir.com">
+            </a>
         </div>
     </header>
+
     <main>
         <div class="container">
             {% block body %}
             {% endblock %}
         </div>
     </main>
+
     <footer>
         <div class="container">
             <h4>Sortir.com &copy; {{ "now" | date("Y") }}</h4>
         </div>
     </footer>
-
 </body>
 </html>
