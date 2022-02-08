@@ -28,6 +28,7 @@ class RegistrationFormType extends AbstractType
             ->add('nom', TextType::class, ['label' => 'Nom :'])
             ->add('telephone', TelType::class, ['label' => 'Téléphone'])
             ->add('email', EmailType::class, ['label' => 'Email'])
+
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'label' => 'Mot de passe :',
@@ -50,6 +51,10 @@ class RegistrationFormType extends AbstractType
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
+                    new Regex([
+                        'pattern'=> '/^(?=.*\d)(?=.*[A-Z])(?=.*[@#$%])(?!.*(.)\1{2}).*[a-z]/',
+                        'message'=> 'Votre mot de passe doit comporter au moins six caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole ( @ # $ % ).'
+                    ])
                 ],
             ]);
           /*  ->add('campus',ChoiceType::class,['choices'=>['Nantes'=>'Nantes','Rennes'=>'Rennes','Niort'=>'Niort']]);
