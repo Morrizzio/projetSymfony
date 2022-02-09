@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+{% block title %}{{ parent() }} | <!--todo: afficher profil choisie -->{% endblock %}
+
+{% block body %}
+    <div>Nom du profil</div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+        {{ form_end(form) }}
+
+        <!-- SUPPRIMER LE PROFIL -->
+        <form method="post" action="{{ path('participant_delete', {'id': participant.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ participant.id) }}">
+            <button class="btn">Delete</button>
+        </form>
+    {% else %}
+        <table class="table">
+            <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ participant.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ participant.email }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ participant.roles ? participant.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ participant.password }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ participant.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ participant.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ participant.telephone }}</td>
+            </tr>
+            <tr>
+                <th>Administrateur</th>
+                <td>{{ participant.administrateur ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Actif</th>
+                <td>{{ participant.actif ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Pseudo</th>
+                <td>{{ participant.pseudo }}</td>
+            </tr>
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
