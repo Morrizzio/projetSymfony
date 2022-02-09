@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -56,9 +58,11 @@ class RegistrationFormType extends AbstractType
                         'message'=> 'Votre mot de passe doit comporter au moins six caractères, dont des lettres majuscules et minuscules, un chiffre et un symbole ( @ # $ % ).'
                     ])
                 ],
+            ])
+            ->add('Campus',EntityType::class,['class' => Campus::class,
+                'choice_label' => 'nom'
             ]);
-          /*  ->add('campus',ChoiceType::class,['choices'=>['Nantes'=>'Nantes','Rennes'=>'Rennes','Niort'=>'Niort']]);
-            */
+
 
 
     }
