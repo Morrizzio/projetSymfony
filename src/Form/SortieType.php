@@ -38,9 +38,9 @@ class SortieType extends AbstractType
             ->add('infosSortie')
             ->add('Campus', ChoiceType::class, [
                 'choices'=> [
-                    'Rennes' => '1',
-                    'Niort'=>'2',
-                    'Nantes'=>'3'
+                    'Saint-Herblain' => '1',
+                    'La Roche sur Yon'=>'2',
+                    'CHARTRES DE BRETAGNE'=>'3'
                 ],
                 'multiple'=>false
             ])
@@ -48,6 +48,9 @@ class SortieType extends AbstractType
             ->add('lieu',EntityType::class,['class' => Lieu::class,
                 'choice_label' => 'nom'
             ]);
+            ->add('lieu',EntityType::class,['class' => Lieu::class,
+            'choice_label' => 'nom'
+    ]);
         ;
     }
 
