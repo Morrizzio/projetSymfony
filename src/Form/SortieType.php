@@ -36,21 +36,16 @@ class SortieType extends AbstractType
             ])
             ->add('nbInscriptionsMax')
             ->add('infosSortie')
-            ->add('Campus', ChoiceType::class, [
-                'choices'=> [
-                    'Saint-Herblain' => '1',
-                    'La Roche sur Yon'=>'2',
-                    'CHARTRES DE BRETAGNE'=>'3'
-                ],
-                'multiple'=>false
-            ])
+            ->add('Campus', EntityType::class, [
+                'class' => Campus::class,
+                'choice_label' => 'nom'
+                ]
+            )
             //->add('etat', Integer::class)
             ->add('lieu',EntityType::class,['class' => Lieu::class,
                 'choice_label' => 'nom'
             ]);
-            ->add('lieu',EntityType::class,['class' => Lieu::class,
-            'choice_label' => 'nom'
-    ]);
+
         ;
     }
 
