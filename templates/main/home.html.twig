@@ -5,4 +5,65 @@
 {% endblock %}
 {% block body %}
     <div>Bienvenue !</div>
+    <table>
+        <thead>
+            <tr>
+               <th>
+                   Nom de la sortie
+               </th>
+                <th>
+                    Date de la sortie
+                </th>
+                <th>
+                    Cloture
+                </th>
+                <th>
+                    Inscrits/Places
+                </th>
+                <th>
+                    État
+                </th>
+                <th>
+                    Inscrit
+                </th>
+                <th>
+                    Organisateur
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        {% for sortie in sorties %}
+        <tr>
+            <th>
+                {{ sortie.nom }}
+            </th>
+            <th>
+                {{ sortie.dateHeureDebut|date('d-m-Y H:i') }}
+
+            </th>
+            <th>
+
+                {{ sortie.dateLimiteInscription|date('d-m-Y') }}
+            </th>
+            <th>
+                Inscrits/{{ sortie.nbInscriptionsMax }}
+            </th>
+            <th>
+                {{sortie.etat.libelle}}
+            </th>
+            <th>
+                Inscrit
+            </th>
+            <th>
+                Organisateur
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        {% endfor %}
+    </table>
+
 {% endblock %}

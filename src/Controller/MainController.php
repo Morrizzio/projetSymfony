@@ -6,6 +6,7 @@ use App\Entity\Etat;
 use App\Entity\Sortie;
 use App\Form\SortieType;
 use App\Repository\EtatRepository;
+use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,11 +23,14 @@ class MainController extends AbstractController
     /**
      * @Route("", name="home")
      */
-    public function home(){
-        if($this->getUser() != null)
-            return $this->render('main/home.html.twig');
-        else
+    public function home(SortieRepository $sortieRepository){
+        if($this->getUser() != null){
+            $sorties = $sortieRepository->findAll();
+            return $this->render('main/home.html.twig', ["sorties"=>$sorties]);
+        }
+        else{
             return $this->redirectToRoute('app_login');
+        }
     }
     /**
      * @Route("/creersortie", name="main_creersortie")
