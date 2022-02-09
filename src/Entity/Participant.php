@@ -43,8 +43,9 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     /**
-     * @var string The hashed password
+     *
      * @ORM\Column(type="string")
+     * @var string The hashed password
      */
     private $password;
 

@@ -4,12 +4,16 @@ namespace App\Controller;
 
 use App\Entity\Participant;
 use App\Form\ParticipantType;
+use App\Form\RegistrationFormType;
 use App\Repository\ParticipantRepository;
+use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 /**
  * @Route("/participant")
@@ -27,26 +31,45 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="participant_new", methods={"GET", "POST"})
+     * @Route("/create", name="participant_new", methods={"GET", "POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $participant = new Participant();
         $participant->setRoles(['ROLE_USER']);
         $participant->setActif(true);
-        $form = $this->createForm(ParticipantType::class, $participant);
+
+        if($participant->getRoles() == ['ROLE_USER'])
+            $participant->setAdministrateur(true);
+        else
+            $participant->setAdministrateur(false);
+
+        $participant->setAdministrateur(true);
+        $form = $this->createForm(RegistrationFormType::class, $participant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $participant->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $participant,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
             $entityManager->persist($participant);
             $entityManager->flush();
+            // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('main_home', [], Response::HTTP_SEE_OTHER);
+            return $userAuthenticator->authenticateUser(
+                $participant,
+                $authenticator,
+                $request
+            );
         }
 
-        return $this->renderForm('participant/new.html.twig', [
-            'participant' => $participant,
-            'form' => $form,
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
         ]);
     }
 
