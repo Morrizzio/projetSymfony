@@ -68,8 +68,8 @@ class ParticipantController extends AbstractController
             );
         }
 
-        return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form->createView(),
+        return $this->render('participant/create.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
