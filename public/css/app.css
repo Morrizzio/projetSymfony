@@ -1,10 +1,20 @@
+/*
+COLORS
+jaune : #d5dc00
+bleu du menu 142e7e
+bleu du bouton de recherche 586aa3
+bleu champs formulaire b1bad4
+nuance tableau 1 8794bd
+nuance tableau 2 b8c0d8
+ */
+
 header{
     position: sticky;
     top: 0;
     background-color: #d5dc00;
     width: 100%;
     height: 15vh;
-    min-height: 100px;
+    min-height: 140px;
 }
 
 header img{
@@ -19,6 +29,31 @@ main{
     width: 80vw;
     min-height: 80vh;
 }
+
+a{
+    color:inherit;
+    text-decoration: none;
+}
+
+li a:hover{
+    color: #8794bd;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+    justify-content: flex-end;
+}
+
+nav li {
+    margin-right: 1rem;
+}
+
+li a{
+    color: #142e7e;
+}
+
 .container{
     text-align: center;
 }
