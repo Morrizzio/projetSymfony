@@ -7,6 +7,10 @@ bleu champs formulaire b1bad4
 nuance tableau 1 8794bd
 nuance tableau 2 b8c0d8
  */
+@font-face {
+    font-family: 'alba';
+    src: url("typo/alba.TTF");
+}
 
 header{
     position: sticky;
@@ -27,7 +31,8 @@ main{
     margin: auto;
     background-color: white;
     width: 80vw;
-    min-height: 80vh;
+    height: 80vh;
+    min-height: calc(100vh - 190px);
 }
 
 a{
@@ -51,6 +56,8 @@ nav li {
 }
 
 li a{
+    font-family: 'alba';
+    font-size: 25px;
     color: #142e7e;
 }
 
@@ -79,4 +86,8 @@ footer{
     min-height: 50px;
     padding-top: 11px;
     padding-bottom: 11px;
+}
+
+h1{
+    padding: 20px;
 }
