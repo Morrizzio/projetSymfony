@@ -1,12 +1,23 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Participant{% endblock %}
+{% block title %}{{ parent() }} | <!--todo: afficher profil choisie -->{% endblock %}
 
 {% block body %}
-    <h1>Participant</h1>
+    <div>Nom du profil</div>
 
-    <table class="table">
-        <tbody>
+    {% if is_granted('ROLE_ADMIN') %}
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+        {{ form_end(form) }}
+
+        <!-- SUPPRIMER LE PROFIL -->
+        <form method="post" action="{{ path('participant_delete', {'id': participant.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ participant.id) }}">
+            <button class="btn">Delete</button>
+        </form>
+    {% else %}
+        <table class="table">
+            <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ participant.id }}</td>
@@ -47,12 +58,7 @@
                 <th>Pseudo</th>
                 <td>{{ participant.pseudo }}</td>
             </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('participant_index') }}">back to list</a>
-
-    <a href="{{ path('participant_edit', {'id': participant.id}) }}">edit</a>
-
-    {{ include('participant/_delete_form.html.twig') }}
+            </tbody>
+        </table>
+    {% endif %}
 {% endblock %}

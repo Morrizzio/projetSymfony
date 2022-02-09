@@ -28,8 +28,8 @@ class RegistrationFormType extends AbstractType
             ->add('pseudo', TextType::class, ['label' => 'Pseudo :'])
             ->add('prenom', TextType::class, ['label' => 'Prénom :'])
             ->add('nom', TextType::class, ['label' => 'Nom :'])
-            ->add('telephone', TelType::class, ['label' => 'Téléphone'])
-            ->add('email', EmailType::class, ['label' => 'Email'])
+            ->add('telephone', TelType::class, ['label' => 'Téléphone :'])
+            ->add('email', EmailType::class, ['label' => 'Email :'])
 
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -37,8 +37,8 @@ class RegistrationFormType extends AbstractType
                 'invalid_message' => 'Les mots de passe doivent correspondre.',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options' => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Répétez le mot de passe'],
+                'first_options' => ['label' => 'Mot de passe :'],
+                'second_options' => ['label' => 'Répétez le mot de passe :'],
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
