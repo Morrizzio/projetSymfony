@@ -7,5 +7,12 @@
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
     <a href="{{ path('main_home') }}"><button>Annuler</button></a>
+        {% if is_granted('ROLE_ADMIN') %}
+            <!-- SUPPRIMER LE PROFIL -->
+            <form method="post" action="{{ path('participant_delete', {'id': participant.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ participant.id) }}">
+                <button class="btn">Delete</button>
+            </form>
+        {% endif %}
     {{ form_end(form) }}
 {% endblock %}

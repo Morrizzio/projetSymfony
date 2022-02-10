@@ -16,12 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 /**
- * @Route("/participant")
+ * @Route("/participant", name="participant_")
  */
 class ParticipantController extends AbstractController
 {
     /**
-     * @Route("/", name="participant_index", methods={"GET"})
+     * @Route("/", name="index")
      */
     public function index(ParticipantRepository $participantRepository): Response
     {
@@ -31,7 +31,7 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/create", name="participant_new", methods={"GET", "POST"})
+     * @Route("/create", name="create")
      */
     public function new(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
@@ -67,33 +67,66 @@ class ParticipantController extends AbstractController
                 $request
             );
         }
-
         return $this->render('participant/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="participant_show", methods={"GET"})
+     * @Route("/details/{id}", name="details")
      */
-    public function show(Participant $participant): Response
-    {
-        return $this->render('participant/show.html.twig', [
+    public function details(
+        int $id,
+        ParticipantRepository $participantRepository
+    ): Response{
+
+        $participant = $participantRepository->find($id);
+        if(!$participant)
+            throw $this->createNotFoundException('Utilisateur inconnue');
+
+        return $this->render('participant/other.html.twig', ['participant' => $participant]);
+    }
+
+    /**
+     * @Route("/edit/{id}", name="edit")
+     */
+    public function edit(
+        int $id,
+        Request $request,
+        EntityManagerInterface $entityManager,
+        ParticipantRepository $participantRepository
+    ):Response{
+        $participant = $participantRepository->find($id);
+        if(!$participant)
+            throw $this->createNotFoundException('Utilisateur inconnue');
+
+        $form = $this->createForm(ParticipantType::class, $participant);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+            $this->addFlash('success', 'modification(s) sur le profil enregistée(s)');
+            return $this->redirectToRoute('participant_index', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('participant/edit.html.twig', [
             'participant' => $participant,
+            'form' => $form,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="participant_edit", methods={"GET", "POST"})
+     * @Route("/self", name="self")
      */
-    public function edit(Request $request, Participant $participant, EntityManagerInterface $entityManager): Response
+    public function self(
+        Request $request,
+        EntityManagerInterface $entityManager): Response
     {
+        $participant = $this->getUser();
         $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $this->addFlash('success', 'modification(s) sur le profil enregistée(s)');
             return $this->redirectToRoute('participant_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -104,7 +137,7 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="participant_delete", methods={"POST"})
+     * @Route("/{id}", name="delete")
      */
     public function delete(Request $request, Participant $participant, EntityManagerInterface $entityManager): Response
     {
@@ -115,4 +148,5 @@ class ParticipantController extends AbstractController
 
         return $this->redirectToRoute('participant_index', [], Response::HTTP_SEE_OTHER);
     }
+
 }

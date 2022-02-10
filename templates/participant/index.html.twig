@@ -34,10 +34,6 @@
                 <td>{{ participant.administrateur ? 'Yes' : 'No' }}</td>
                 <td>{{ participant.actif ? 'Yes' : 'No' }}</td>
                 <td>{{ participant.pseudo }}</td>
-                <td>
-                    <a href="{{ path('participant_show', {'id': participant.id}) }}">show</a>
-                    <a href="{{ path('participant_edit', {'id': participant.id}) }}">edit</a>
-                </td>
             </tr>
         {% else %}
             <tr>
@@ -46,6 +42,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('participant_new') }}">Create new</a>
 {% endblock %}
