@@ -17,7 +17,18 @@
 
 {% block scripts %}
     <script>
-        $(function() {  $("#villes").change(function() {    alert($(this).val());  });});
+        var id_ville;
+        $(function() {  $("#villes").change(function() {
+            id_ville= $(this).val();
+            $.ajax({
+                method: "POST",
+                url: "{{ path('sortie_recherche_ajax') }}",
+                data: {$id:'id_ville'},
+                success: function(){
+                    alert("envoyé");
+                }
+            });
+        });});
     </script>
 {% endblock %}
 
