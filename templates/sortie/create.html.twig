@@ -10,3 +10,16 @@
 {% block title %}
 
 {% endblock %}
+{% block scripts %}
+    <script>
+        $(document).ready(function(){
+
+            var btn = document.getElementById('logo');
+            var test = 2;
+
+            $(btn).click(function(){
+                alert('test');
+            });
+        });
+    </script>
+{% endblock %}

@@ -6,6 +6,7 @@ use App\Entity\Campus;
 use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
+use App\Entity\Ville;
 use Doctrine\DBAL\Types\IntegerType;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -41,6 +42,11 @@ class SortieType extends AbstractType
                 'choice_label' => 'nom'
                 ]
             )
+            /*->add('Ville', EntityType::class, [
+                    'class' => Ville::class,
+                    'choice_label' => 'nom'
+                ]
+            )*/
             //->add('etat', Integer::class)
             ->add('lieu',EntityType::class,['class' => Lieu::class,
                 'choice_label' => 'nom'

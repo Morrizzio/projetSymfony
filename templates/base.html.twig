@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="icon" href="{{ asset('img/logo2popMin.jpg') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% block scripts %}{% endblock %}
     <style>
         .l{background-image: url("{{asset('img/bg1.jpg')}}") ;}
         .r{background-image: url("{{asset('img/bg2.jpg')}}");}
@@ -20,7 +22,7 @@
     <header>
         <div class="container">
             <a href="{{ path('main_home') }}">
-                <img src="{{ asset('img/logo.png') }}" alt="Sortir.com">
+                <img src="{{ asset('img/logo.png') }}" alt="Sortir.com" id="logo">
             </a>
             {% include('inc/nav.html.twig') %}
         </div>
@@ -39,4 +41,5 @@
         </div>
     </footer>
 </body>
+
 </html>
