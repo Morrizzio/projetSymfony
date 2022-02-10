@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Ville;
+use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -76,6 +78,16 @@ class SortieController extends AbstractController
      * @Route("/modify/{id}", name="modify")
      */
 
+    /**
+     * @Route("/ajax", name="_recherche_ajax")
+     */
+    public function ajaxAction(string $id,LieuRepository $lieuRepository,VilleRepository $villeRepository): Response
+    {
+            $ville=$villeRepository->find($id);
+         dump($ville);
+            $lieu = $lieuRepository->findBy($ville);
+            dump($lieu);
+            return $this->render('sorties/create.html.twig', ["lieu"=>$lieu]);
 
-
+    }
 }
