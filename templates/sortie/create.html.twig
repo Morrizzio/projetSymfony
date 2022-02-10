@@ -22,8 +22,8 @@
             id_ville= $(this).val();
             $.ajax({
                 method: "POST",
-                url: "/sorties/ajax",
-                data: {id:'id_ville'},
+                url: "{{ path('sortie_recherche_ajax') }}",
+                data: {$id:'id_ville'},
                 success: function(){
                     alert("envoyé");
                 }
