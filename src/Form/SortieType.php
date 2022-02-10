@@ -25,8 +25,7 @@ class SortieType extends AbstractType
     {
         $builder
             ->add('nom')
-            ->add('dateHeureDebut', DateTimeType::class,
-                [
+            ->add('dateHeureDebut', DateTimeType::class, [
                     'html5'=> true,
                     'widget'=> 'single_text'
                 ])
@@ -40,15 +39,15 @@ class SortieType extends AbstractType
             ->add('Campus', EntityType::class, [
                 'class' => Campus::class,
                 'choice_label' => 'nom'
-                ]
-            )
+            ])
             /*->add('Ville', EntityType::class, [
                     'class' => Ville::class,
                     'choice_label' => 'nom'
                 ]
             )*/
             //->add('etat', Integer::class)
-            ->add('lieu',EntityType::class,['class' => Lieu::class,
+            ->add('lieu',EntityType::class,[
+                'class' => Lieu::class,
                 'choice_label' => 'nom'
             ])
 
