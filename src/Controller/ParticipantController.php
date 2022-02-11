@@ -84,7 +84,7 @@ class ParticipantController extends AbstractController
         if(!$participant)
             throw $this->createNotFoundException('Utilisateur inconnue');
 
-        return $this->render('participant/other.html.twig', ['participant' => $participant]);
+        return $this->render('participant/detail.html.twig', ['participant' => $participant]);
     }
 
     /**
@@ -137,11 +137,16 @@ class ParticipantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="delete")
+     * @Route("/delete/{id}", name="delete")
      */
-    public function delete(Request $request, Participant $participant, EntityManagerInterface $entityManager): Response
+    public function delete(Request $request, int $id ,EntityManagerInterface $entityManager,ParticipantRepository $participantRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$participant->getId(), $request->request->get('_token'))) {
+        $participant=$participantRepository->find($id);
+        if(!$participant)
+            throw $this->createNotFoundException('Utilisateur inconnue');
+
+        if ($this->isCsrfTokenValid('delete'.$id, $request->request->get('_token'))) {
+
             $entityManager->remove($participant);
             $entityManager->flush();
         }
