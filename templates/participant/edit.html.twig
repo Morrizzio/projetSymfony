@@ -2,9 +2,12 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-
+    {% if participant.champ %}
+    <img src="{{ asset('img/imageprofil/' ~ participant.champ) }}">
+    {% endif %}
     {{ form_start(form) }}
     {{ form_widget(form) }}
+
     <button class="btn">{{ button_label|default('Save') }}</button>
     <a href="{{ path('main_home') }}"><button>Annuler</button></a>
 
@@ -16,4 +19,5 @@
             <button class="btn">Delete</button>
         </form>
     {% endif %}
+
 {% endblock %}

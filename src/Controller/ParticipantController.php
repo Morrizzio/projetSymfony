@@ -66,7 +66,9 @@ class ParticipantController extends AbstractController
                 $authenticator,
                 $request
             );
+
         }
+
         return $this->render('participant/create.html.twig', [
             'form' => $form->createView(),
         ]);
@@ -124,7 +126,21 @@ class ParticipantController extends AbstractController
         $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
 
+
+
+
         if ($form->isSubmitted() && $form->isValid()) {
+            // Récupèrer les informations du formaulire dans un objet $file
+            $file = $form->get('champ')->getData();
+            if ($file)
+            {
+                // On renomme le fichier, selon une convention propre au projet
+                // Par exemple nom de l'entité + son id + extension soit 'entite-1.jpg'
+
+                $newFilename = $participant->getPseudo()."-".$participant->getId().".".$file->guessExtension();
+                $file->move($this->getParameter('upload_champ_entite_dir'), $newFilename);
+                $participant->setChamp($newFilename);
+            }
             $entityManager->flush();
             $this->addFlash('success', 'modification(s) sur le profil enregistée(s)');
             return $this->redirectToRoute('participant_index', [], Response::HTTP_SEE_OTHER);

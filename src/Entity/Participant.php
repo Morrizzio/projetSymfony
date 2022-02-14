@@ -41,6 +41,12 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      *
      */
     private $roles = [];
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @var string|null
+     */
+    private $champ;
 
     /**
      *
@@ -338,4 +344,23 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getChamp(): ?string
+    {
+        return $this->champ;
+    }
+
+    /**
+     * @param string|null $champ
+     * @return Participant
+     */
+    public function setChamp(?string $champ): self
+    {
+        $this->champ = $champ;
+        return $this;
+    }
+
 }

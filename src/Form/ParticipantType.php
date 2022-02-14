@@ -16,6 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ParticipantType extends AbstractType
 {
@@ -27,6 +28,10 @@ class ParticipantType extends AbstractType
             ->add('nom', TextType::class, ['label' => 'Nom :'])
             ->add('telephone', TelType::class, ['label' => 'Téléphone'])
             ->add('email', EmailType::class, ['label' => 'Email'])
+            ->add('champ', FileType::class,
+                [ 'mapped' => false, // désactive le mappage avec le champ dans l'entité (qui attend une chaîne de caractère)
+                ]
+            )
 
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
@@ -58,9 +63,8 @@ class ParticipantType extends AbstractType
             ])
             ->add('Campus',EntityType::class,['class' => Campus::class,
                 'choice_label' => 'nom'
-            ]);
-        /*  ->add('photo')*/
-        ;
+            ])
+           ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
