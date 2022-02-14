@@ -17,22 +17,61 @@
 
 {% block scripts %}
     <script>
-        var id_ville;
-        $(function() {  $("#villes").change(function() {
+    /*    var id_ville;
+        $( document ).ready(function() {
+            var id_ville;
+            $("#villes").change(function() {
             id_ville= $(this).val();
             $.ajax({
                 method: "POST",
                 url: "{{ path('sortie_recherche_ajax') }}",
                 data: {id: id_ville},
-                success: function(){
-                    alert("envoyé");
+                dataType: 'JSON',
+                success: function(data){
+                    console.log(data);
                 }
             });
-        });});
+        });});*/
+    fetch(sApiGeoUrl,
+        { method: 'get' })
+        .then(response => response.json())
+        .then(
+            results =>
+            {
+                // console.log(results);
+
+                // Affichage des résultats
+                if (results.length) { // On teste s'il y a des résultats
+
+                    let sHtmlDatalist = '';
+
+                    // On boucle sur les résultats
+                    results.forEach((value) => {
+                        // console.log(value);
+
+                        // On construit les options de la datalist HTML
+                        sHtmlDatalist += "<option value='"+value.nom+"'>"+value.nom+" ("+value.codesPostaux+")</option>\n";
+                    });
+
+                    // console.log(sHtmlDatalist);
+                    document.getElementById("villes").innerHTML = sHtmlDatalist;
+                } else {
+                    console.log("Aucun résultat.");
+                    // +++ TODO : afficher un message HTML +++
+                }
+            }
+        )
+        // Erreur dans la réponse de l'API
+        .catch(error => {
+            console.log(error);
+            // +++ TODO : afficher un message HTML +++
+        });
     </script>
+    {% if lieux is defined %}
     {% for lieu in lieux %}
-    {{ lieu.id }}
+    {{ lieu.nom }}
     {% endfor %}
+    {% endif %}
 {% endblock %}
 
 

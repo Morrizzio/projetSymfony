@@ -8,6 +8,7 @@ use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Sortie;
 use App\Form\SortieType;
@@ -85,10 +86,10 @@ class SortieController extends AbstractController
     {
         $id = $_POST['id'];
             //$ville=$villeRepository->find((int)$id);
-         dump('$id');
-         $lieux = $lieuRepository->findBy(array('id'=>(int)$id));
+         //dd('$id');
+         $lieux = $lieuRepository->findBy(array('ville'=>(int)$id));
          dump($lieux);
-        return $this->render('sortie/create.html.twig', ['lieux'=>$lieux]);
+        return new Response(json_encode($lieux));
 
     }
 }
