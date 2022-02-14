@@ -2,9 +2,12 @@
 {% block title %}{% endblock %}
 
 {% block body %}
+    <div class="self">
     {% if participant.champ %}
     <img src="{{ asset('img/imageprofil/' ~ participant.champ) }}">
     {% endif %}
+    </div>
+    <div class="self">
     {{ form_start(form) }}
     {{ form_widget(form) }}
 
@@ -19,5 +22,6 @@
             <button class="btn">Delete</button>
         </form>
     {% endif %}
+    </div>
 
 {% endblock %}

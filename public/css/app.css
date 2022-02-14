@@ -11,7 +11,10 @@ nuance tableau 2 b8c0d8
     font-family: 'alba';
     src: url("typo/alba.TTF");
 }
+body{
+    font-family: Arial,sans-serif;
 
+}
 header{
     position: sticky;
     top: 0;
@@ -107,4 +110,22 @@ h1{
 }
 #btt{
     box-shadow: 3px 3px 3px black;
+}
+.self{
+    float: left;
+    width: 49%;
+    padding-top: 20px;
+}
+.self>img{
+    text-align:center;
+    width: 200px;
+}
+.self>form{
+    text-align: left;
+}
+input,select{
+    width: 200px;
+}
+.self>label{
+    width: 20px;
 }
