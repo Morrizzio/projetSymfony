@@ -2,12 +2,13 @@
 {% block title %}{% endblock %}
 
 {% block body %}
-    <div class="self">
+    <div class="selfleft">
     {% if participant.champ %}
     <img src="{{ asset('img/imageprofil/' ~ participant.champ) }}">
     {% endif %}
     </div>
-    <div class="self">
+    <div class="selfRight">
+        <h2>Mon profil</h2>
     {{ form_start(form) }}
     {{ form_widget(form) }}
 

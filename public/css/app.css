@@ -112,24 +112,27 @@ h1{
 #btt{
     box-shadow: 3px 3px 3px black;
 }
-.self{
+.selfleft{
     float: left;
-    width: 49%;
-    padding-top: 20px;
+    width: 35%;
+    padding-top: 44px;
+
 }
-.self>img{
+.selfleft>img{
     text-align:center;
     width: 200px;
     box-shadow: #b3c0e7 5px 5px;
 }
-.self>form{
+.selfRight>form{
     text-align: left;
+
 }
 input,select{
-    width: 200px;
+    width: 55%;
+    border: #b3c0e7 1px solid;
 }
 label{
-    width: 230px;
+    width: 34%;
     display: inline-block;
     padding-top: 14px;
 }
@@ -150,5 +153,7 @@ button{
     background-color: #f1f1f1;
     margin-top: 15px;
     margin-right: 15px;
-    width: 47%;
+    width: 60%;
+    float: left;
+
 }
