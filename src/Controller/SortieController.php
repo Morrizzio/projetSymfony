@@ -81,14 +81,14 @@ class SortieController extends AbstractController
     /**
      * @Route("/ajax", name="recherche_ajax")
      */
-    public function ajaxAction(string $id,LieuRepository $lieuRepository,VilleRepository $villeRepository): Response
+    public function ajaxAction(LieuRepository $lieuRepository,VilleRepository $villeRepository): Response
     {
-
+        $id = $_POST['id'];
             //$ville=$villeRepository->find((int)$id);
          dump('$id');
-            $lieu = $lieuRepository->findBy(array('id'=>(int)$id));
-            //dump($lieu);
-            return $this->render('sortie/create.html.twig', ["lieu"=>$lieu]);
+         $lieux = $lieuRepository->findBy(array('id'=>(int)$id));
+         dump($lieux);
+        return $this->render('sortie/create.html.twig', ['lieux'=>$lieux]);
 
     }
 }

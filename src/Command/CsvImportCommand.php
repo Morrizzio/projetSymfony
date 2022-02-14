@@ -95,6 +95,7 @@ class CsvImportCommand extends Command
         $this->em->flush();
 
         $io->success('Command exited cleanly!');
+        return 1;
     }
 
 }
