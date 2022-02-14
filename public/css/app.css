@@ -12,7 +12,8 @@ nuance tableau 2 b8c0d8
     src: url("typo/alba.TTF");
 }
 body{
-    font-family: Arial,sans-serif;
+    font-family: "Futura Std Condensed","Gotham Light",Arial,sans-serif;
+    font-size: 10pt;
 
 }
 header{
@@ -119,6 +120,7 @@ h1{
 .self>img{
     text-align:center;
     width: 200px;
+    box-shadow: #b3c0e7 5px 5px;
 }
 .self>form{
     text-align: left;
@@ -126,6 +128,27 @@ h1{
 input,select{
     width: 200px;
 }
-.self>label{
-    width: 20px;
+label{
+    width: 230px;
+    display: inline-block;
+    padding-top: 14px;
+}
+button{
+    width: 150px;
+    height: 50px;
+    background-color: #d5dc00;
+    border: none;
+    box-shadow: #4160c1 3px 3px;
+    margin: 15px;
+    font-family: alba;
+    font-size: 15pt;
+    color: #4160c1;
+}
+.selfRight{
+    box-shadow: #b3c0e7 -5px 5px;
+    padding-left: 17px;
+    background-color: #f1f1f1;
+    margin-top: 15px;
+    margin-right: 15px;
+    width: 47%;
 }
