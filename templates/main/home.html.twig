@@ -5,6 +5,9 @@
 {% endblock %}
 {% block body %}
     <div>Bienvenue !</div>
+    {{ form_start(sortieFiltreForm) }}
+    {{ form_widget(sortieFiltreForm) }}
+    {{ form_end(sortieFiltreForm) }}
     <table>
         <thead>
             <tr>

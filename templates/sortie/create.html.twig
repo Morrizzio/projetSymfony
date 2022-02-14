@@ -23,13 +23,16 @@
             $.ajax({
                 method: "POST",
                 url: "{{ path('sortie_recherche_ajax') }}",
-                data: {$id:'id_ville'},
+                data: {id: id_ville},
                 success: function(){
                     alert("envoyé");
                 }
             });
         });});
     </script>
+    {% for lieu in lieux %}
+    {{ lieu.id }}
+    {% endfor %}
 {% endblock %}
 
 
