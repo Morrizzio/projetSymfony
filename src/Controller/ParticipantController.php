@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Campus;
 use App\Entity\Participant;
+use App\Form\CsvImportFormType;
 use App\Form\ParticipantType;
 use App\Form\RegistrationFormType;
+use App\Repository\CampusRepository;
 use App\Repository\ParticipantRepository;
 use App\Security\AppAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -170,4 +173,79 @@ class ParticipantController extends AbstractController
         return $this->redirectToRoute('participant_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    /**
+     * @Route("/addWithFile",name="addWithFile")
+     */
+    public function addWithFile(Request $request, CampusRepository $campusRepository, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userPasswordHasher)
+    {
+        $form = $this->createForm(CsvImportFormType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $file = $form->get('champ')->getData();
+            $newFileName = "datas.csv";
+            if($file){
+                $file->move($this->getParameter('upload_csv_dir'), $newFileName);
+                $handle = fopen($this->getParameter('upload_csv_dir')."/datas.csv",'r');
+
+                $mail = null;
+                $pseudo = null;
+                $nom = null;
+                $prenom = null;
+                $tel = null;
+                $campus = null;
+
+                $tour = 0;
+                while(($data = fgetcsv($handle)) !== false){
+                    if($tour == 0){
+                        foreach($data as $key => $value){
+                            if($value == "email")
+                                $mail = $key;
+                            if($value == "pseudo")
+                                $pseudo = $key;
+                            if($value == "nom")
+                                $nom = $key;
+                            if($value == "prenom")
+                                $prenom = $key;
+                            if($value == "telephone")
+                                $tel = $key;
+                            if($value == "campus")
+                                $campus = $key;
+                        }
+                    }else{
+                        $participant = new Participant();
+                        $participant
+                            ->setPseudo($data[$pseudo])
+                            ->setNom($data[$nom])
+                            ->setPrenom($data[$prenom])
+                            ->setEmail($data[$mail])
+                            ->setTelephone($data[$tel])
+
+                            ->setRoles(["ROLE_USER"])
+                            ->setPassword($userPasswordHasher->hashPassword($participant,'Az123@'))
+                            ->setAdministrateur(0)
+                            ->setActif(1);
+                        if($campus != null){
+                            $oCampus = $campusRepository->findOneBy([
+                                'nom' => $data[$campus]
+                            ]);
+                            if($oCampus === null){
+                                $campus = (new Campus())
+                                    ->setNom($data[$campus]);
+                                $entityManager->persist($oCampus);
+                                $entityManager->flush();
+                            }
+                            $participant->setCampus($oCampus);
+                        }
+                        $entityManager->persist($participant);
+                        $entityManager->flush();
+                    }
+                    $tour++;
+                }
+            }
+        }
+        return $this->render('admin/addfile.html.twig',[
+            'form' => $form->createView()
+        ]);
+    }
 }

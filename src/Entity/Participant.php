@@ -30,19 +30,18 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
      * @Assert\Length(min=5,max=180 ,minMessage="il faut saisir au moins 5 caractères")
      * @Assert\Regex(
      *     pattern="/^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/",
-     *     message="Mail non valide !"
-     * )
+     *     message="Mail non valide !")
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
      * @Assert\NotBlank (message="role obligatoire")
-     *
      */
     private $roles = [];
+
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      *
      * @var string|null
      */
@@ -79,7 +78,6 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="boolean")
-     *
      */
     private $administrateur;
 
@@ -89,16 +87,15 @@ class Participant implements UserInterface, PasswordAuthenticatedUserInterface
     private $actif;
 
     /**
-     * @ORM\Column(type="string", length=100,unique=true)
+     * @ORM\Column(type="string", length=100, unique=true)
      * @Assert\NotBlank (message="le pseuso est obligatoire")
      * @Assert\Length(min=5,max=100 ,minMessage="il faut saisir au moins 5 caractères",maxMessage="saisissez 100 caractères Maximum")
-     *
      */
     private $pseudo;
 
     /**
      * @ORM\ManyToOne(targetEntity=Campus::class, inversedBy="participants")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $Campus;
 
