@@ -36,15 +36,19 @@ class SortieController extends AbstractController
         Request $request,
         EntityManagerInterface $entityManager,
         EtatRepository $etatRepository,
-        VilleRepository $villeRepository
+        VilleRepository $villeRepository,
+        LieuRepository $lieuRepository
     ): Response {
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieType::class, $sortie);
         $sortieForm->handleRequest($request);
 
         if($sortieForm->isSubmitted() && $sortieForm->isValid()) {
-            $sortie->setLieu($_POST['lieux']);
+            dump($_POST);
+
+            $sortie->setLieu($lieuRepository->find($_POST['lieux']));
             $sortie->setEtat($etatRepository->find(1));
+            dump($sortie);
             $entityManager->persist($sortie);
             $entityManager->flush();
         }
