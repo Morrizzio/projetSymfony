@@ -26,10 +26,17 @@ class ParticipantController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(ParticipantRepository $participantRepository): Response
+    public function index(ParticipantRepository $participantRepository, Request $request): Response
     {
+        $limit = 20;
+        $noPage = $request->query->get("page",1);
+        $participants = $participantRepository->paginator($limit, $noPage);
+        $total = $participantRepository->getTotalParticipants();
         return $this->render('participant/index.html.twig', [
-            'participants' => $participantRepository->findAll(),
+            'participants' => $participants,
+            'total' => $total,
+            'limit' => $limit,
+            'page' => $noPage
         ]);
     }
 
@@ -238,13 +245,15 @@ class ParticipantController extends AbstractController
                             $participant->setCampus($oCampus);
                         }
                         $entityManager->persist($participant);
-                        $entityManager->flush();
                     }
                     $tour++;
                 }
+                $entityManager->flush();
             }
+            $this->addFlash('success', 'Tous les participants ont été ajouter a la base de donnée');
+            return $this->redirectToRoute('participant_index');
         }
-        return $this->render('admin/addfile.html.twig',[
+        return $this->render('participant/addfile.html.twig',[
             'form' => $form->createView()
         ]);
     }

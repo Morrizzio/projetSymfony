@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Participant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -32,12 +33,15 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         if (!$user instanceof Participant) {
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
-
         $user->setPassword($newHashedPassword);
         $this->_em->persist($user);
         $this->_em->flush();
     }
 
+
+    /**
+     * Se connecter avec le pseudo ou le mail
+     */
     public function loadUserByIdentifier(string $identifier): ?Participant{
         $entityManager = $this->getEntityManager();
 
@@ -51,6 +55,24 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
             ->getOneOrNullResult();
     }
 
+    public function paginator(int $results, int $noPage)
+    {
+        $queryBuilder = $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'ASC')
+            ->setFirstResult(($noPage*$results)-$results)
+            ->setMaxResults($results);
+        $query = $queryBuilder->getQuery();
+
+        $paginator = new Paginator($query);
+        return $paginator;
+    }
+
+    public function getTotalParticipants(){
+        $query = $this->createQueryBuilder('p')
+            ->select('COUNT(p)');
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
     public function __call($name, $arguments)
     {
         // TODO: Implement @method null loadUserByIdentifier(string $identifier)
@@ -60,4 +82,8 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
     {
         // TODO: Implement loadUserByUsername() method.
     }
+
+
+
+
 }

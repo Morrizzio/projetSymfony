@@ -14,7 +14,8 @@ class CsvImportFormType extends AbstractType
         $builder
             ->add('champ', FileType::class,
             ['mapped'=>false,
-             'required'=>true
+             'required'=>true,
+             'label'=>'Fichier CSV'
                 ]);
     }
 

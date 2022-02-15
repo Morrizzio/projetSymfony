@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter plusieurs users{% endblock %}
+
+{% block body %}
+    <h1>Import d'un fichier CSV</h1>
+    <div>
+        <h3>Le document doit être de format CSV et nécessite les libellés suivants:</h3>
+        <ul>
+            <li>pseudo</li>
+            <li>nom</li>
+            <li>prenom</li>
+            <li>email</li>
+            <li>telephone</li>
+            <li>campus (optionnel)</li>
+        </ul>
+    </div>
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">Enregistrer</button>
+    {{ form_end(form) }}
+
+
+{% endblock %}

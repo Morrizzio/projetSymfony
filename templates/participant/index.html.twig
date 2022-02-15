@@ -9,31 +9,28 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
                 <th>Nom</th>
                 <th>Prenom</th>
-                <th>Telephone</th>
-                <th>Administrateur</th>
-                <th>Actif</th>
+                <th>Email</th>
                 <th>Pseudo</th>
-                <th>actions</th>
+                <th>Telephone</th>
+                <th>Roles</th>
+                <th>Administrateur</th>
+                <th>aaaa</th>
             </tr>
         </thead>
         <tbody>
         {% for participant in participants %}
             <tr>
                 <td>{{ participant.id }}</td>
-                <td>{{ participant.email }}</td>
-                <td>{{ participant.roles ? participant.roles|json_encode : '' }}</td>
-                <td>{{ participant.password }}</td>
                 <td>{{ participant.nom }}</td>
                 <td>{{ participant.prenom }}</td>
-                <td>{{ participant.telephone }}</td>
-                <td>{{ participant.administrateur ? 'Yes' : 'No' }}</td>
-                <td>{{ participant.actif ? 'Yes' : 'No' }}</td>
+                <td>{{ participant.email }}</td>
                 <td>{{ participant.pseudo }}</td>
+                <td>{{ participant.telephone }}</td>
+                <td>{{ participant.roles ? participant.roles|json_encode : '' }}</td>
+                <td>{{ participant.administrateur ? 'Yes' : 'No' }}</td>
+                <td><input type="checkbox" id="cb{{ participant.id }}"></td>
             </tr>
         {% else %}
             <tr>
@@ -42,4 +39,69 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <button onclick="window.location.href = '{{ path('main_home') }}';" value="supprimer">supprimer</button>
+
+<!--
+    <label for="paginator">Page</label>
+    <select name="paginator" id="paginator" onchange="page(this.value)">
+        {% for i in 1..((total/limit)|round(0,'ceil')) %}
+            <option value="{{ i }}">{{ i }}</option>
+        {% endfor %}
+    </select>
+-->
+
+
+    <ul class="pagination">
+        {% set pages = (total/limit)|round(0,'ceil') %}
+        {% set min = (page-3 >= 1) ? (page-3) : 1 %}
+        {% set max = (page+3 <= pages) ? (page+3) : pages %}
+        <li>{{ min }}</li>
+        <li class="{{ (page == 1) ? 'disable' : '' }}">
+            <a href="?page=1">
+                <i class=""><<</i>
+            </a>
+        </li>
+        <li class="{{ (page == 1) ? 'disable' : '' }}">
+            <a href="{{ (page > 1) ? '?page=' ~ (page-1) : '' }}">
+                <i class=""><</i>
+            </a>
+        </li>
+
+        {% if min != 1 %}
+            <li>
+                <p>...</p>
+            </li>
+        {% endif %}
+
+        {% for i in min..max%}
+            <li class="{{ (page == i) ? 'active' : '' }}">
+                <a href="?page={{ i }}">{{ i }}</a>
+            </li>
+        {% endfor %}
+
+        {% if max != pages %}
+        <li>
+            <p>...</p>
+        </li>
+        {% endif %}
+
+        <li class="{{ (page == pages ) ? 'disable' : '' }}">
+            <a href="{{ (page < pages) ? '?page=' ~ (page+1) : '' }}">
+                <i class="">></i>
+            </a>
+        </li>
+        <li class="{{ (page == pages) ? 'disable' : '' }}">
+            <a href="?page={{ pages }}">
+                <i class="">>></i>
+            </a>
+        </li>
+    </ul>
+
+    <script>
+        function page(value){
+            window.location.href = `?page=${value}`;
+        }
+    </script>
+
 {% endblock %}
