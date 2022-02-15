@@ -7,6 +7,8 @@ use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use JetBrains\PhpStorm\Internal\TentativeType;
+use JsonSerializable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,6 +17,10 @@ use App\Form\SortieType;
 use App\Repository\EtatRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 
 /**
@@ -37,6 +43,7 @@ class SortieController extends AbstractController
         $sortieForm->handleRequest($request);
 
         if($sortieForm->isSubmitted() && $sortieForm->isValid()) {
+            $sortie->setLieu($_POST['lieux']);
             $sortie->setEtat($etatRepository->find(1));
             $entityManager->persist($sortie);
             $entityManager->flush();
@@ -84,12 +91,19 @@ class SortieController extends AbstractController
      */
     public function ajaxAction(LieuRepository $lieuRepository,VilleRepository $villeRepository): Response
     {
+        $encoders = [new XmlEncoder(), new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+
+        $serializer = new Serializer($normalizers, $encoders);
         $id = $_POST['id'];
             //$ville=$villeRepository->find((int)$id);
          //dd('$id');
          $lieux = $lieuRepository->findBy(array('ville'=>(int)$id));
+         $jsonContent = $serializer->serialize($lieux, 'json');
          dump($lieux);
-        return new Response(json_encode($lieux));
+        return new Response(json_encode($jsonContent));
 
     }
+
+
 }

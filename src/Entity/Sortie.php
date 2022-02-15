@@ -73,7 +73,7 @@ class Sortie
     private $etat;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Lieu::class)
+     * @ORM\ManyToOne(targetEntity=Lieu::class, cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $lieu;
