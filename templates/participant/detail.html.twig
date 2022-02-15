@@ -4,11 +4,13 @@
 {% block body %}
 
     <div id="detail-div">
-    <div id="detail-img">
         {% if participant.champ %}
-            <img src="{{ asset('img/imageprofil/' ~ participant.champ) }}">
+        <div id="detail-img" style="background-image: url('{{ asset('img/imageprofil/' ~ participant.champ) }}');">
+
+           {# <img src="{{ asset('img/imageprofil/' ~ participant.champ) }}">#}
             {% else %}
-            <img src="{{ asset('img/defaultimageprofil.png') }}">
+            <div id="detail-img" style="background-image: url('{{ asset('img/defaultimageprofil.png') }}');">
+
         {% endif %}
     </div>
         <div class="p-infos-show">
