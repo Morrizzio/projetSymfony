@@ -190,3 +190,31 @@ button{
     justify-content: center;
     flex-direction: row;
 }
+
+td,
+th {
+    border: 1px solid rgb(190, 190, 190);
+    padding: 10px;
+}
+
+td {
+    text-align: center;
+}
+
+caption {
+    padding: 10px;
+    caption-side: bottom;
+}
+
+table {
+    margin: auto;
+    border-collapse: collapse;
+    border: 2px solid rgb(200, 200, 200);
+    letter-spacing: 1px;
+    font-size: .8rem;
+}
+
+tr:nth-child(even) {
+    background-color: #eee;
+}
+

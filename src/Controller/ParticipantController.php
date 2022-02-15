@@ -28,7 +28,7 @@ class ParticipantController extends AbstractController
      */
     public function index(ParticipantRepository $participantRepository, Request $request): Response
     {
-        $limit = 20;
+        $limit = 15;
         $noPage = $request->query->get("page",1);
         $participants = $participantRepository->paginator($limit, $noPage);
         $total = $participantRepository->getTotalParticipants();
@@ -136,9 +136,6 @@ class ParticipantController extends AbstractController
         $form = $this->createForm(ParticipantType::class, $participant);
         $form->handleRequest($request);
 
-
-
-
         if ($form->isSubmitted() && $form->isValid()) {
             // Récupèrer les informations du formaulire dans un objet $file
             $file = $form->get('champ')->getData();
@@ -176,8 +173,27 @@ class ParticipantController extends AbstractController
             $entityManager->remove($participant);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('participant_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/deleter", name="deleter")
+     */
+    public function deleter(Request $request, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository): Response
+    {
+        $deleteP = $request->get('cb');
+        if($this->isCsrfTokenValid('delete-items', $request->request->get('_token'))) {
+            if($deleteP!=null) {
+                foreach ($deleteP as $key => $item) {
+                    $participant = $participantRepository->find($key);
+                    $entityManager->remove($participant);
+                }
+            }
+            $entityManager->flush();
+            return $this->redirectToRoute('participant_index', [], Response::HTTP_SEE_OTHER);
+        }else{
+            throw $this->createAccessDeniedException();
+        }
     }
 
     /**
