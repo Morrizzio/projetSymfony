@@ -55,7 +55,7 @@ nav ul {
     justify-content: flex-end;
 }
 
-nav li {
+nav li, .pagination>li {
     margin-right: 1rem;
 }
 
@@ -182,4 +182,11 @@ button{
 .p-infos-show>h1{
     text-align: center;
     text-decoration: underline;
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    flex-direction: row;
 }
