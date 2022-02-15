@@ -183,13 +183,3 @@ button{
     text-align: center;
     text-decoration: underline;
 }
-
-.pagination{
-    display: flex;
-    list-style: none;
-    justify-content: center;
-    flex-direction: row;
-}
-.pagination>li{
-    margin-right: 1rem;
-}

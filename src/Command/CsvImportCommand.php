@@ -10,6 +10,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 /**
@@ -54,35 +55,29 @@ class CsvImportCommand extends Command
      * @return void
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
         $io->title('Attempting import of Feed...');
 
-        $reader = Reader::createFromPath('%kernel.project_dir%/../data/datas.csv')
+        $reader = Reader::createFromPath('%kernel.project_dir%/../data/try10p.csv')
             ->setHeaderOffset(0);
-
 
         foreach($reader as $row){
             $participant = new Participant();
-
-            if($row['campus'] == null)
-                dd($participant);
-
             $participant
                 ->setEmail($row['email'])
+                ->setRoles(["ROLE_USER"])
+                //->setPassword($userPasswordHasher->hashPassword($participant,$row['password']))
+                ->setPassword($row['password'])
                 ->setNom($row['nom'])
                 ->setPrenom($row['prenom'])
-                ->setPseudo($row['pseudo'])
                 ->setTelephone($row['telephone'])
-
-                ->setRoles(["ROLE_USER"])
-
-//                ->setPassword($userPasswordHasher->hashPassword($participant,'Az123@'))
                 ->setAdministrateur(0)
-                ->setActif(1);
+                ->setActif(1)
+                ->setPseudo($row['pseudo']);
 
-            /*
+
             $campus = $this->em->getRepository('App:Campus')
                 ->findOneBy([
                     'nom' => $row['campus']
@@ -95,7 +90,6 @@ class CsvImportCommand extends Command
                 $this->em->flush();
             }
             $participant->setCampus($campus);
-            */
             $this->em->persist($participant);
         }
         $this->em->flush();
