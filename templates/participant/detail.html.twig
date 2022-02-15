@@ -2,13 +2,23 @@
 {% block title %}{{ parent() }} | {{ participant.pseudo }}{% endblock %}
 
 {% block body %}
-    <h1>{{ participant.pseudo }}</h1>
+
+    <div id="detail-div">
+    <div id="detail-img">
+        {% if participant.champ %}
+            <img src="{{ asset('img/imageprofil/' ~ participant.champ) }}">
+            {% else %}
+            <img src="{{ asset('img/defaultimageprofil.png') }}">
+        {% endif %}
+    </div>
         <div class="p-infos-show">
-            <div>Prénom: {{ participant.prenom }}</div>
-            <div>Nom: {{ participant.nom }}</div>
-            <div>Téléphone: {{ participant.telephone }}</div>
-            <div>Email: {{ participant.email }}</div>
-            <div>Campus: {{ participant.campus.nom }}</div>
+            <h1>{{ participant.pseudo }}</h1>
+            <div><label>Prénom:</label> {{ participant.prenom }}</div>
+            <div><label>Nom:</label> {{ participant.nom }}</div>
+            <div><label>Téléphone:</label> {{ participant.telephone }}</div>
+            <div><label>Email:</label> {{ participant.email }}</div>
+            <div><label>Campus:</label> {{ participant.campus.nom }}</div>
         </div>
+    </div>
     <button id="btt"><a href="{{ path('main_home') }}"> Retour</a></button>
 {% endblock %}
