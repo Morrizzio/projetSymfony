@@ -20,14 +20,11 @@ class MainController extends AbstractController
     /**
      * @Route("", name="home")
      */
-    public function home(SortieRepository $sortieRepository,ParticipantRepository $participantRepository,Request $request):Response{
+    public function home(SortieRepository $sortieRepository):Response{
 
         if($this->getUser() != null){
-            /*$user=new Participant();*/
             $idUser=$this->getUser();
-            dump($idUser);
-            /*$user=$participantRepository->find($idUser);
-            $nomUser=$user->getPseudo();*/
+
             $sorties = $sortieRepository->findAll();
             $sortieFiltreForm = $this->createForm(SortieFiltreType::class);
             return $this->render('main/home.html.twig', ["sorties"=>$sorties, 'sortieFiltreForm' => $sortieFiltreForm->createView(),"utilisateur"=>$idUser]);
