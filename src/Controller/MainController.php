@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Participant;
 use App\Form\SortieFiltreType;
+use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -16,11 +20,17 @@ class MainController extends AbstractController
     /**
      * @Route("", name="home")
      */
-    public function home(SortieRepository $sortieRepository){
+    public function home(SortieRepository $sortieRepository,ParticipantRepository $participantRepository,Request $request):Response{
+
         if($this->getUser() != null){
+            /*$user=new Participant();*/
+            $idUser=$this->getUser();
+            dump($idUser);
+            /*$user=$participantRepository->find($idUser);
+            $nomUser=$user->getPseudo();*/
             $sorties = $sortieRepository->findAll();
             $sortieFiltreForm = $this->createForm(SortieFiltreType::class);
-            return $this->render('main/home.html.twig', ["sorties"=>$sorties, 'sortieFiltreForm' => $sortieFiltreForm->createView()]);
+            return $this->render('main/home.html.twig', ["sorties"=>$sorties, 'sortieFiltreForm' => $sortieFiltreForm->createView(),"utilisateur"=>$idUser]);
         }
         else{
             return $this->redirectToRoute('app_login');
