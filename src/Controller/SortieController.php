@@ -100,14 +100,20 @@ class SortieController extends AbstractController
 
         $serializer = new Serializer($normalizers, $encoders);
         $id = $_POST['id'];
-            //$ville=$villeRepository->find((int)$id);
-         //dd('$id');
+
          $lieux = $lieuRepository->findBy(array('ville'=>(int)$id));
          $jsonContent = $serializer->serialize($lieux, 'json');
          dump($lieux);
         return new Response(json_encode($jsonContent));
 
     }
-
+    /**
+     * @Route("/addparticipant", name="add_participant")
+     */
+    public function addParticipant(){
+        $participant = $_SESSION;
+        dump($participant);
+        return $this->render('sortie/detail.html.twig');
+    }
 
 }
