@@ -61,12 +61,6 @@ class Sortie
     private $participants;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Participant::class, inversedBy="sortieOrganisee")
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $participant;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Etat::class)
      * @ORM\JoinColumn(nullable=false)
      */
@@ -195,18 +189,6 @@ class Sortie
         if ($this->participants->removeElement($participant)) {
             $participant->removeSorty($this);
         }
-
-        return $this;
-    }
-
-    public function getParticipant(): ?Participant
-    {
-        return $this->participant;
-    }
-
-    public function setParticipant(?Participant $participant): self
-    {
-        $this->participant = $participant;
 
         return $this;
     }

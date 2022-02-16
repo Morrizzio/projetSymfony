@@ -67,7 +67,7 @@
                 Organisateur
             </th>
             <th>
-                <a href="/{{ path('sortie_add_participant') }}">S'inscrire</a>
+                <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}" >S'inscrire</a>
             </th>
         </tr>
         {% endfor %}

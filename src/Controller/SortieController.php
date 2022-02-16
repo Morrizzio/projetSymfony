@@ -6,8 +6,8 @@ use App\Entity\Ville;
 use App\Repository\LieuRepository;
 use App\Repository\SortieRepository;
 use App\Repository\VilleRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
-use JetBrains\PhpStorm\Internal\TentativeType;
 use JsonSerializable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -105,15 +105,23 @@ class SortieController extends AbstractController
          $jsonContent = $serializer->serialize($lieux, 'json');
          dump($lieux);
         return new Response(json_encode($jsonContent));
-
     }
+
     /**
-     * @Route("/addparticipant", name="add_participant")
+     * @Route("/inscription/{id}", name="inscription")
      */
-    public function addParticipant(){
-        $participant = $_SESSION;
-        dump($participant);
-        return $this->render('sortie/detail.html.twig');
+    public function addParticipant(EntityManagerInterface $entityManager, SortieRepository $sortieRepository, int $id){
+        $participant = $this->getUser();
+        $sortie = $sortieRepository->find($id);
+
+        $sortie->addParticipant($participant);
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+        $this->addFlash('success', 'Inscription enregistée');
+
+        return $this->render('sortie/detail.html.twig',[
+            'sortie' => $sortie
+        ]);
     }
 
 }
