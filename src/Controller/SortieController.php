@@ -37,7 +37,8 @@ class SortieController extends AbstractController
         EntityManagerInterface $entityManager,
         EtatRepository $etatRepository,
         VilleRepository $villeRepository,
-        LieuRepository $lieuRepository
+        LieuRepository $lieuRepository,
+        SortieRepository $sortieRepository
     ): Response {
         $sortie = new Sortie();
         $sortieForm = $this->createForm(SortieType::class, $sortie);
@@ -45,6 +46,8 @@ class SortieController extends AbstractController
 
         if($sortieForm->isSubmitted() && $sortieForm->isValid()) {
             dump($_POST);
+            $sortie->setOrganisateur($this->getUser());
+
 
             $sortie->setLieu($lieuRepository->find($_POST['lieux']));
             $sortie->setEtat($etatRepository->find(1));
@@ -119,9 +122,8 @@ class SortieController extends AbstractController
         $entityManager->flush();
         $this->addFlash('success', 'Inscription enregistée');
 
-        return $this->render('sortie/detail.html.twig',[
-            'sortie' => $sortie
-        ]);
+        return $this->redirectToRoute('main_home');
+
     }
 
 }

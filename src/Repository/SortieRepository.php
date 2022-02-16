@@ -19,6 +19,20 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
+   /* public function getNbInscrits($id){
+        $queryBuilder = $this->createQueryBuilder();
+        $queryBuilder->Join('p.id','par')
+        $queryBuilder->select('COUNT(p.id)')
+            ->from(Participant::class, 'p')
+            ->where('s.id= :id')
+            ->join()
+            ->setParameter('id', $id);
+
+        $query = $queryBuilder->getQuery();
+        return $query->getResult();
+    }
+
+*/
     // /**
     //  * @return Sortie[] Returns an array of Sortie objects
     //  */

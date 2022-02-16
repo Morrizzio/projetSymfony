@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Participant;
+use App\Entity\Sortie;
 use App\Form\SortieFiltreType;
 use App\Repository\ParticipantRepository;
 use App\Repository\SortieRepository;
@@ -27,7 +28,10 @@ class MainController extends AbstractController
 
             $sorties = $sortieRepository->findAll();
             $sortieFiltreForm = $this->createForm(SortieFiltreType::class);
-            return $this->render('main/home.html.twig', ["sorties"=>$sorties, 'sortieFiltreForm' => $sortieFiltreForm->createView(),"utilisateur"=>$idUser]);
+            return $this->render('main/home.html.twig', ["sorties"=>$sorties,
+                'sortieFiltreForm' => $sortieFiltreForm->createView(),
+                "utilisateur"=>$idUser,
+                ]);
         }
         else{
             return $this->redirectToRoute('app_login');
