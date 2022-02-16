@@ -190,7 +190,15 @@ button{
     justify-content: center;
     flex-direction: row;
 }
-
+table{
+    box-shadow: #aaaaaa 5px 5px;
+}
+thead{
+    background-color: #8794bd;
+}
+tbody{
+    background-color: #b8c0d8;
+}
 td,
 th {
     border: 1px solid rgb(190, 190, 190);
@@ -215,6 +223,15 @@ table {
 }
 
 tr:nth-child(even) {
-    background-color: #eee;
+    background-color: #8794bd;
 }
-
+#sortie_filtre{
+    text-align: left;
+    margin: 30px;
+}
+#sortie_filtre label{
+    width: 100px;
+}
+#sortie_filtre input,#sortie_filtre select {
+    width: 200px;
+}

@@ -6,6 +6,7 @@ use App\Entity\Campus;
 use App\Entity\Sortie;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,8 +20,14 @@ class SortieFiltreType extends AbstractType
                 'choice_label' => 'nom'
             ])
             ->add('nom')
-            ->add('dateHeureDebut')
-            ->add('dateHeureDebut')
+            ->add('dateHeureDebut', DateTimeType::class, [
+                'html5'=> true,
+                'widget'=> 'single_text'
+            ])
+            ->add('dateHeureDebut', DateTimeType::class, [
+                'html5'=> true,
+                'widget'=> 'single_text'
+            ])
         ;
     }
 
