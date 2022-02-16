@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Participant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
@@ -56,9 +55,11 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
             ->getOneOrNullResult();
     }
 
-    public function paginator(int $results, int $noPage)
+    public function paginator(int $results, int $noPage, bool $active)
     {
         $queryBuilder = $this->createQueryBuilder('p')
+            ->setParameter('actif', $active)
+            ->andWhere('p.actif = :actif')
             ->orderBy('p.id', 'ASC')
             ->setFirstResult(($noPage*$results)-$results)
             ->setMaxResults($results);
@@ -68,9 +69,13 @@ class ParticipantRepository extends ServiceEntityRepository implements PasswordU
         return $paginator;
     }
 
-    public function getTotalParticipants(){
+    public function getTotalParticipants(bool $active){
         $query = $this->createQueryBuilder('p')
-            ->select('COUNT(p)');
+            ->setParameter('actif', $active)
+            ->andWhere('p.actif = :actif')
+            ->select('COUNT(p)')
+        ;
+
         return $query->getQuery()->getSingleScalarResult();
     }
 

@@ -30,13 +30,15 @@ class ParticipantController extends AbstractController
     {
         $limit = 15;
         $noPage = $request->query->get("page",1);
-        $participants = $participantRepository->paginator($limit, $noPage);
-        $total = $participantRepository->getTotalParticipants();
+        $actif = $request->query->get("actif", true);
+        $participants = $participantRepository->paginator($limit, $noPage, $actif);
+        $total = $participantRepository->getTotalParticipants($actif);
         return $this->render('participant/index.html.twig', [
             'participants' => $participants,
             'total' => $total,
             'limit' => $limit,
-            'page' => $noPage
+            'page' => $noPage,
+            'actif' => $actif
         ]);
     }
 
@@ -195,6 +197,28 @@ class ParticipantController extends AbstractController
             throw $this->createAccessDeniedException();
         }
     }
+
+    /**
+     * @Route("/desactiver/{actif}", name="desactiver")
+     */
+    public function desactiver(Request $request, bool $actif, EntityManagerInterface $entityManager, ParticipantRepository $participantRepository): Response
+    {
+        $desactiveP = $request->get('cb');
+        if($this->isCsrfTokenValid('desactive-items', $request->request->get('_token'))) {
+            if($desactiveP!=null) {
+                foreach ($desactiveP as $key => $item) {
+                    $participant = $participantRepository->find($key);
+                    ($actif) ? $participant->setActif(false) : $participant->setActif(true);
+                }
+            }
+            $entityManager->flush();
+            return $this->redirectToRoute('participant_index', [], Response::HTTP_SEE_OTHER);
+        }else{
+            throw $this->createAccessDeniedException();
+        }
+    }
+
+
 
     /**
      * @Route("/addWithFile",name="addWithFile")

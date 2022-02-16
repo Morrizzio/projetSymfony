@@ -3,7 +3,7 @@
 {% block title %}Participant index{% endblock %}
 
 {% block body %}
-    <h1>Index des participants</h1>
+    <h1>Index des participants {{ actif ? 'actifs' : 'désactivés' }}</h1>
 
     <form>
         <table class="table">
@@ -38,7 +38,12 @@
         </table>
         <input type="hidden" name="_token" value="{{ csrf_token('delete-items') }}">
         <button formaction="{{ path('participant_deleter') }}" value="supprimer" formmethod="post" onclick="return confirm('Voulez-vous vraiment supprimer les personnes séléctionnées ?');">supprimer</button>
+
+        <input type="hidden" name="_token" value="{{ csrf_token('desactive-items') }}">
+        <button formaction="{{ path('participant_desactiver',{'actif':actif}) }}" value="desactiver" formmethod="post" onclick="return confirm('Voulez-vous vraiment {{ actif ? 'désactiver' : 'activer' }} les personnes séléctionnées ?');">{{ actif ? 'Désactiver' : 'Activer' }}</button>
     </form>
+
+    <a href="?actif={{ actif ? '0' : '1' }}">Vers tableau des participants {{ actif ? 'désactivés' : 'actifs' }}</a>
 
     <ul class="pagination">
         {% set pages = (total/limit)|round(0,'ceil') %}
