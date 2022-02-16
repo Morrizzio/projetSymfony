@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+{% block title %}{% endblock %}
+
+
+{% block body %}
+    <h2>{{ sortie.nom }}</h2>
+    <table id="detailSortie">
+        <tbody>
+            <tr>
+                <th>Date et heure de début</th>
+                <th>{{ sortie.dateHeureDebut |date('d-m-Y H:i')}}</th>
+                <th>Campus</th>
+                <th>{{ sortie.campus.nom }}</th>
+            </tr>
+            <tr>
+                <th>Date limite d'inscription</th>
+                <th>{{ sortie.dateLimiteInscription |date('d-m-Y') }}</th>
+                <th>Lieu</th>
+                <th>{{ sortie.lieu.nom }}</th>
+            </tr>
+            <tr>
+                <th>Nombre de places</th>
+                <th>{{ sortie.nbInscriptionsMax }}</th>
+                <th>Rue</th>
+                <th>{{ sortie.lieu.rue }}</th>
+            </tr>
+            <tr>
+                <th>Durée</th>
+                <th>{{ sortie.duree }} minutes</th>
+                <th>Code postal</th>
+                <th>{{ sortie.lieu.ville.codePostal }}</th>
+            </tr>
+            <tr>
+                <th>Description et infos</th>
+                <th>{{ sortie.infosSortie }}</th>
+                <th>Latitude</th>
+                <th>{{ sortie.lieu.latitude }}</th>
+            </tr>
+            <tr>
+                <th></th>
+                <th></th>
+                <th>Longitude</th>
+                <th>{{ sortie.lieu.longitude }}</th>
+            </tr>
+        </tbody>
+    </table>
+    <h4>Liste des participants inscrits</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>
+                Pseudo
+            </th>
+            <th>
+                Nom
+            </th>
+        </tr>
+
+        </thead>
+        <tbody>
+            <tr>
+                {% for participant in sortie.participants %}
+                    <th>{{ participant.pseudo }}</th>
+                    <th>{{ participant.nom }}</th>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
