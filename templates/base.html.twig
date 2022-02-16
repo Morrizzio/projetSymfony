@@ -24,9 +24,15 @@
             <a href="{{ path('main_home') }}">
                 <img src="{{ asset('img/logo.png') }}" alt="Sortir.com" id="logo">
             </a>
-            {% include('inc/nav.html.twig') %}
+            {% if app.user %}
+                {% include('inc/nav.html.twig') %}
+            {% endif %}
         </div>
     </header>
+
+    {% if is_granted("ROLE_ADMIN") %}
+        {% include('inc/navadmin.html.twig') %}
+    {% endif %}
 
     {# read and display all flash messages #}
     {% for label, messages in app.flashes %}
