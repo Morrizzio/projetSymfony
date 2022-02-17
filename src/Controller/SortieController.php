@@ -9,6 +9,7 @@ use App\Repository\VilleRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use JsonSerializable;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -125,5 +126,22 @@ class SortieController extends AbstractController
         return $this->redirectToRoute('main_home');
 
     }
+
+    /**
+     * @Route("/desister/{id}", name="desister")
+     */
+    public function desisterParticipant(EntityManagerInterface $entityManager, SortieRepository $sortieRepository, int $id){
+        $participant = $this->getUser();
+        $sortie = $sortieRepository->find($id);
+
+        $sortie->removeParticipant($participant);
+        $entityManager->persist($sortie);
+        $entityManager->flush();
+        $this->addFlash('success', 'Inscription annulée');
+
+        return $this->redirectToRoute('main_home');
+
+    }
+
 
 }

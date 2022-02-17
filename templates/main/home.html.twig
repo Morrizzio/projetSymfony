@@ -73,7 +73,18 @@
                <a href="{{ path('participant_details',{'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a>
             </th>
             <th>
-                <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}" >S'inscrire</a> , <a href="{{ path('sortie_details', {'id': sortie.id}) }}" >Afficher</a>
+
+                    {% if utilisateur in sortie.participants%}
+                        <a href="{{ path('sortie_desister', {'id': sortie.id}) }}" >Se desister</a>,
+
+                    {% else %}
+                        <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}" >S'inscrire</a>,
+                    {% endif %}
+
+                <a href="{{ path('sortie_details', {'id': sortie.id}) }}">Afficher</a>
+
+
+
             </th>
         </tr>
         {% endfor %}

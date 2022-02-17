@@ -297,4 +297,5 @@ class ParticipantController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
 }
