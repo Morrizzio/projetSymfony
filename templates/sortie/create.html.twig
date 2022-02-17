@@ -37,9 +37,31 @@
     <script>
        var id_ville;
         $( document ).ready(function() {
-            let id_ville;
+            let id_ville=1;
             let id_lieu;
             let dataResp;
+
+
+                $.ajax({
+                    method: "POST",
+                    url: "{{ path('sortie_recherche_ajax') }}",
+                    data: {id: id_ville},
+                    dataType: 'JSON',
+                    success: function(data){
+                        dataResp = (JSON.parse(data));
+                        $("#lieux").empty();
+                        for (let i of dataResp){
+                            console.log(i.nom);
+                            $optionLieu= $('<option value="'+ i.id +'">'+ i.nom + '</option>');
+                            $("#lieux").append($optionLieu);
+                        }
+                        $("#rue>strong").text(dataResp[0].rue);
+                        $("#cp>strong").text(dataResp[0].ville.codePostal);
+                        $("#latitude>strong").text(dataResp[0].latitude);
+                        $("#longitude>strong").text(dataResp[0].longitude);
+                    }
+                });
+
             $("#villes").change(function() {
                 id_ville= $(this).val();
                 $.ajax({
@@ -55,6 +77,10 @@
                             $optionLieu= $('<option value="'+ i.id +'">'+ i.nom + '</option>');
                             $("#lieux").append($optionLieu);
                         }
+                        $("#rue>strong").text(dataResp[0].rue);
+                        $("#cp>strong").text(dataResp[0].ville.codePostal);
+                        $("#latitude>strong").text(dataResp[0].latitude);
+                        $("#longitude>strong").text(dataResp[0].longitude);
                     }
                 });
             });
