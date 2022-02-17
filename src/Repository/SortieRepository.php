@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Participant;
 use App\Entity\Sortie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
+
 
 /**
  * @method Sortie|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,46 +22,62 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
-   /* public function getNbInscrits($id){
-        $queryBuilder = $this->createQueryBuilder();
-        $queryBuilder->Join('p.id','par')
-        $queryBuilder->select('COUNT(p.id)')
-            ->from(Participant::class, 'p')
-            ->where('s.id= :id')
-            ->join()
-            ->setParameter('id', $id);
+    public function filter($datas, Participant $user){
 
-        $query = $queryBuilder->getQuery();
-        return $query->getResult();
-    }
-
-*/
-    // /**
-    //  * @return Sortie[] Returns an array of Sortie objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
+        $queryBuilder = $this->createQueryBuilder('s')
+            ->join('s.Campus', 'c')
+            ->addSelect('c')
+            ->andWhere('c = :campus')
+            ->andWhere('s.nom LIKE :nom')
+            ->setParameter('campus', $datas['campus']->getData())
+            ->setParameter('nom', '%'.$datas['nom']->getData().'%')
         ;
-    }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Sortie
-    {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        if($datas['organisateur']->getData()) {
+            $queryBuilder
+                ->join('s.organisateur', 'o')
+                ->addSelect('o')
+                ->andWhere('o = :user1')
+                ->setParameter('user1',$user)
+                ;
+        }
+        if($datas['inscrit']->getData() && !$datas['non_inscrit']->getData()) {
+            $queryBuilder
+                ->join('s.participants', 'p')
+                ->addSelect('p')
+                ->andWhere('p = :user2')
+                ->setParameter('user2',$user)
+            ;
+        }/*else if(!$datas['inscrit']->getData() && $datas['non_inscrit']->getData()) {
+            $queryBuilder
+                ->join('s.participants', 'p')
+                ->addSelect('p')
+                ->andWhere('p NOT :user3')
+                ->setParameter('user3',$user)
+            ;
+        }*/
+
+        if($datas['dateHeureDebut']->getData() != null){
+            $queryBuilder
+                ->setParameter('start', $datas['dateHeureDebut']->getData())
+                ->andWhere('s.dateHeureDebut >= :start');
+        }
+        if($datas['dateHeureFin']->getData() != null){
+            $queryBuilder
+                ->setParameter('end', $datas['dateHeureFin']->getData())
+                ->andWhere('s.dateHeureDebut <= :end');
+        }
+
+        if($datas['passees']->getData()){
+            $queryBuilder
+                ->setParameter('now', new \DateTime())
+                ->andWhere('s.dateHeureDebut < :now');
+        }else{
+            $queryBuilder
+                ->setParameter('now', new \DateTime())
+                ->andWhere('s.dateHeureDebut >= :now');
+        }
+
+        return $queryBuilder->getQuery()->getResult();
     }
-    */
 }

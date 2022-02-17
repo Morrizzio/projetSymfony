@@ -13,6 +13,7 @@
     </div>
     {{ form_start(sortieFiltreForm) }}
     {{ form_widget(sortieFiltreForm) }}
+    <input type="submit" name="filtre" value="Rechercher">
     {{ form_end(sortieFiltreForm) }}
     <table>
         <thead>
@@ -40,6 +41,9 @@
                 </th>
                 <th>
                     Actions
+                </th>
+                <th>
+                    Campus
                 </th>
             </tr>
         </thead>
@@ -73,18 +77,17 @@
                <a href="{{ path('participant_details',{'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a>
             </th>
             <th>
-
                     {% if utilisateur in sortie.participants%}
                         <a href="{{ path('sortie_desister', {'id': sortie.id}) }}" >Se desister</a>,
 
                     {% else %}
                         <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}" >S'inscrire</a>,
                     {% endif %}
-
                 <a href="{{ path('sortie_details', {'id': sortie.id}) }}">Afficher</a>
 
-
-
+            </th>
+            <th>
+                {{ sortie.campus.nom }}
             </th>
         </tr>
         {% endfor %}
