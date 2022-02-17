@@ -41,54 +41,36 @@
 
 {% block scripts %}
     <script>
-       var id_ville;
+       let id_ville;
+       let id_lieu;
+       let dataResp;
+       function searchLieu(ville) {
+           id_ville= ville;
+           $.ajax({
+               method: "POST",
+               url: "{{ path('sortie_recherche_ajax') }}",
+               data: {id: id_ville},
+               dataType: 'JSON',
+               success: function(data){
+                   dataResp = (JSON.parse(data));
+                   $("#lieux").empty();
+                   for (let i of dataResp){
+                       console.log(i.nom);
+                       $optionLieu= $('<option value="'+ i.id +'">'+ i.nom + '</option>');
+                       $("#lieux").append($optionLieu);
+                   }
+                   $("#rue>strong").text(dataResp[0].rue);
+                   $("#cp>strong").text(dataResp[0].ville.codePostal);
+                   $("#latitude>strong").text(dataResp[0].latitude);
+                   $("#longitude>strong").text(dataResp[0].longitude);
+               }
+           });
+       }
         $( document ).ready(function() {
-            let id_ville=1;
-            let id_lieu;
-            let dataResp;
-
-
-                $.ajax({
-                    method: "POST",
-                    url: "{{ path('sortie_recherche_ajax') }}",
-                    data: {id: id_ville},
-                    dataType: 'JSON',
-                    success: function(data){
-                        dataResp = (JSON.parse(data));
-                        $("#lieux").empty();
-                        for (let i of dataResp){
-                            console.log(i.nom);
-                            $optionLieu= $('<option value="'+ i.id +'">'+ i.nom + '</option>');
-                            $("#lieux").append($optionLieu);
-                        }
-                        $("#rue>strong").text(dataResp[0].rue);
-                        $("#cp>strong").text(dataResp[0].ville.codePostal);
-                        $("#latitude>strong").text(dataResp[0].latitude);
-                        $("#longitude>strong").text(dataResp[0].longitude);
-                    }
-                });
-
-            $("#villes").change(function() {
+            searchLieu(1);
+            $("#villes").change(function () {
                 id_ville= $(this).val();
-                $.ajax({
-                    method: "POST",
-                    url: "{{ path('sortie_recherche_ajax') }}",
-                    data: {id: id_ville},
-                    dataType: 'JSON',
-                    success: function(data){
-                        dataResp = (JSON.parse(data));
-                        $("#lieux").empty();
-                        for (let i of dataResp){
-                            console.log(i.nom);
-                            $optionLieu= $('<option value="'+ i.id +'">'+ i.nom + '</option>');
-                            $("#lieux").append($optionLieu);
-                        }
-                        $("#rue>strong").text(dataResp[0].rue);
-                        $("#cp>strong").text(dataResp[0].ville.codePostal);
-                        $("#latitude>strong").text(dataResp[0].latitude);
-                        $("#longitude>strong").text(dataResp[0].longitude);
-                    }
-                });
+                searchLieu(id_ville);
             });
             $("#lieux").change(function() {
                 id_lieu = $(this).val();
