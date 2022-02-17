@@ -7,40 +7,39 @@
     <table id="detailSortie">
         <tbody>
             <tr>
-                <th>Date et heure de début</th>
-                <th>{{ sortie.dateHeureDebut |date('d-m-Y H:i')}}</th>
-                <th>Campus</th>
-                <th>{{ sortie.campus.nom }}</th>
+                <th class="detailEnonce">Date et heure de début</th>
+                <th class="detailLibelle">{{ sortie.dateHeureDebut |date('d-m-Y H:i')}}</th>
+                <th class="detailEnonce">Campus</th>
+                <th class="detailLibelle">{{ sortie.campus.nom }}</th>
             </tr>
             <tr>
-                <th>Date limite d'inscription</th>
-                <th>{{ sortie.dateLimiteInscription |date('d-m-Y') }}</th>
-                <th>Lieu</th>
-                <th>{{ sortie.lieu.nom }}</th>
+                <th class="detailEnonce">Date limite d'inscription</th>
+                <th class="detailLibelle">{{ sortie.dateLimiteInscription |date('d-m-Y') }}</th>
+                <th class="detailEnonce">Lieu</th>
+                <th class="detailLibelle">{{ sortie.lieu.nom }}</th>
             </tr>
             <tr>
-                <th>Nombre de places</th>
-                <th>{{ sortie.nbInscriptionsMax }}</th>
-                <th>Rue</th>
-                <th>{{ sortie.lieu.rue }}</th>
+                <th class="detailEnonce">Nombre de places</th>
+                <th class="detailLibelle">{{ sortie.nbInscriptionsMax }}</th>
+                <th class="detailEnonce">Rue</th>
+                <th class="detailLibelle">{{ sortie.lieu.rue }}</th>
             </tr>
             <tr>
-                <th>Durée</th>
-                <th>{{ sortie.duree }} minutes</th>
-                <th>Code postal</th>
-                <th>{{ sortie.lieu.ville.codePostal }}</th>
+                <th class="detailEnonce">Durée</th>
+                <th class="detailLibelle">{{ sortie.duree }} minutes</th>
+                <th class="detailEnonce">Code postal</th>
+                <th class="detailLibelle">{{ sortie.lieu.ville.codePostal }}</th>
             </tr>
             <tr>
-                <th>Description et infos</th>
-                <th>{{ sortie.infosSortie }}</th>
-                <th>Latitude</th>
-                <th>{{ sortie.lieu.latitude }}</th>
+                <th class="detailEnonce" rowspan="2">Description et infos</th>
+                <th class="detailLibelle" rowspan="2">{{ sortie.infosSortie }}</th>
+                <th class="detailEnonce">Latitude</th>
+                <th class="detailLibelle">{{ sortie.lieu.latitude }}</th>
             </tr>
             <tr>
-                <th></th>
-                <th></th>
-                <th>Longitude</th>
-                <th>{{ sortie.lieu.longitude }}</th>
+
+                <th class="detailEnonce">Longitude</th>
+                <th class="detailLibelle">{{ sortie.lieu.longitude }}</th>
             </tr>
         </tbody>
     </table>
