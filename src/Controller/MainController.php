@@ -21,16 +21,16 @@ class MainController extends AbstractController
     /**
      * @Route("", name="home")
      */
-    public function home(SortieRepository $sortieRepository):Response{
+    public function home(SortieRepository $sortieRepository,ParticipantRepository  $participantRepository):Response{
 
         if($this->getUser() != null){
             $idUser=$this->getUser();
-
             $sorties = $sortieRepository->findAll();
             $sortieFiltreForm = $this->createForm(SortieFiltreType::class);
             return $this->render('main/home.html.twig', ["sorties"=>$sorties,
                 'sortieFiltreForm' => $sortieFiltreForm->createView(),
                 "utilisateur"=>$idUser,
+
                 ]);
         }
         else{
