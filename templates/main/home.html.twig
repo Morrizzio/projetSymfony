@@ -5,9 +5,11 @@
 {% endblock %}
 {% block body %}
 
-    <div>Bienvenue !</div>
-    <div><p>Date du jour: {{ "now"|date('d/m/Y') }}</p>
-       <p> Participant: {{ utilisateur.pseudo}}</p>
+
+    <div id="bonjour">
+        <p>Bienvenue !</p>
+        <p>Date du jour: {{ "now"|date('d/m/Y') }}</p>
+        <p> Participant: {{ utilisateur.pseudo}}</p>
     </div>
     {{ form_start(sortieFiltreForm) }}
     {{ form_widget(sortieFiltreForm) }}
@@ -71,7 +73,7 @@
                <a href="{{ path('participant_details',{'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.pseudo }}</a>
             </th>
             <th>
-                <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}" >S'inscrire</a>
+                <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}" >S'inscrire</a> , <a href="{{ path('sortie_details', {'id': sortie.id}) }}" >Afficher</a>
             </th>
         </tr>
         {% endfor %}

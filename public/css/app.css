@@ -235,3 +235,15 @@ tr:nth-child(even) {
 #sortie_filtre input,#sortie_filtre select {
     width: 200px;
 }
+#bonjour{
+    width: 300px;
+    float: right;
+    text-align: right;
+    padding-right: 20px;
+}
+#detailSortie, #detailSortie th, #detailSortie tr{
+    border: none;
+    box-shadow: none;
+    text-align: left;
+    background-color: #00000000;
+}
