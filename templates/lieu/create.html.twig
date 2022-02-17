@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ form_start(lieuForm) }}
+    {{ form_widget(lieuForm) }}
+    <input type="submit" name="lieuCreation" value="Créer un lieu">
+    {{ form_end(lieuForm) }}
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+

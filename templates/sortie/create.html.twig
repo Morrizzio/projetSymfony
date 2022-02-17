@@ -5,17 +5,23 @@
 {% block body %}
     {{ form_start(sortieForm) }}
     {{ form_widget(sortieForm) }}
-    <label for="villes">Villes</label>
-    <select id="villes" name="villes">
-        {% for ville in villes %}
-            <option value="{{ ville.id }}">{{ ville.nom }}</option>
-        {% endfor %}</select>
-    <label for="lieux">Lieux</label>
-    <select id="lieux" name="lieux">
-    </select>
+    <div>
+        <label for="villes">Villes</label>
+        <select id="villes" name="villes">
+            {% for ville in villes %}
+                <option value="{{ ville.id }}">{{ ville.nom }}</option>
+            {% endfor %}</select>
+    </div>
+    <div>
+        <label for="lieux">Lieux</label>
+        <select id="lieux" name="lieux">
+        </select>
 
+        <a href="{{ path('lieu_create') }}" id="lienCreerLieux">
+            <img src="{{asset('img/creerlieu.png')}}" id="creerLieu"/>
+        </a>
+    </div>
 
-    <img src="add.png"/>
     <p id="rue">
         Rue : <strong></strong>
     </p>

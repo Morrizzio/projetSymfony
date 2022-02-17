@@ -131,13 +131,16 @@ h1{
 }
 input,select{
     width: 55%;
+    max-width: 300px;
     border: #b3c0e7 1px solid;
 }
 label{
     width: 34%;
+    max-width: 200px;
     display: inline-block;
     padding-top: 14px;
     font-weight: bold;
+    text-align: left;
 
 }
 button{
@@ -263,4 +266,11 @@ h2{
     padding-top: 30px;
     font-family: Alba;
     font-size: 30pt;
+}
+#creerLieu{
+    width: 30px;
+    margin-top: 10px;
+}
+#lienCreerLieux{
+
 }
