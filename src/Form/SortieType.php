@@ -7,17 +7,13 @@ use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\Ville;
-use Doctrine\DBAL\Types\IntegerType;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\GreaterThan;
 
 class SortieType extends AbstractType
 {
@@ -27,12 +23,12 @@ class SortieType extends AbstractType
             ->add('nom')
             ->add('dateHeureDebut', DateTimeType::class, [
                     'html5'=> true,
-                    'widget'=> 'single_text'
+                    'widget'=> 'single_text',
                 ])
             ->add('duree')
             ->add('dateLimiteInscription', DateType::class, [
                 'html5'=> true,
-                'widget'=> 'single_text'
+                'widget'=> 'single_text',
             ])
             ->add('nbInscriptionsMax')
             ->add('infosSortie')

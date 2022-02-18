@@ -6,6 +6,7 @@ use App\Repository\SortieRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=SortieRepository::class)
@@ -26,21 +27,26 @@ class Sortie
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\GreaterThan("today", message="Insertion d'une date passée impossible")
      */
     private $dateHeureDebut;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive()
      */
     private $duree;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Assert\LessThan(propertyPath="dateHeureDebut", message="Doit être avant le début de la sortie")
+     * @Assert\GreaterThan("today", message="Insertion d'une date passée impossible")
      */
     private $dateLimiteInscription;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Positive()
      */
     private $nbInscriptionsMax;
 
